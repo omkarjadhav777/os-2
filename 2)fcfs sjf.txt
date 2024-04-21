@@ -1,0 +1,126 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct process{
+    int pid,arrival,burst,ct,tat,wt;
+};
+
+bool arrc(struct process const a,struct process const b){
+    if(a.arrival!=b.arrival){
+       return a.arrival<b.arrival;
+    }
+     if(a.burst!=b.burst){//
+        return a.burst<b.burst;
+         return a.pid<b.pid;
+      }
+       
+}
+bool ppid(struct process const a,struct process const b){
+        return a.pid<b.pid;
+}
+
+bool burtc(struct process const a,struct process const b){
+      if(a.burst!=b.burst){//
+        return a.burst<b.burst;
+      }
+      if(a.arrival!=b.arrival){
+        return a.arrival<b.arrival;
+        return a.pid<b.pid;
+      }
+}
+
+
+void fcfs(vector<process> process){
+ int current=0;
+ 
+ for(int i=0;i<process.size();i++){
+    if(current<process[i].arrival){
+        current=process[i].arrival;
+    }
+    process[i].ct=current+process[i].burst;
+    process[i].tat=process[i].ct-process[i].arrival;
+    process[i].wt=process[i].tat-process[i].burst;
+    current=process[i].ct;
+ }
+ 
+  cout<<"\npid\t at \t bt \t ct \t tat \t wt"<<endl;
+    sort(process.begin(),process.end(),ppid);
+
+    for(int i=0;i<process.size();i++){
+        cout<<process[i].pid<<"\t"<<process[i].arrival<<"\t"<<process[i].burst<<"\t"<<process[i].ct<<"\t"<<process[i].tat<<"\t"<<process[i].wt<<endl;
+    }
+   
+  float tata=0,wta=0;
+
+   for(int i=0;i<process.size();i++){
+      tata=tata+process[i].tat;
+      wta=wta+process[i].wt;
+   }
+  cout<<"avg wt=>"<<(wta/process.size())<<endl;
+  cout<<"avg tat=>"<<(tata/process.size())<<endl;
+
+
+}
+
+
+void sjf(vector<process> process){
+int current=0;
+ 
+ for(int i=0;i<process.size();){
+    if(current<process[i].arrival){
+        current=process[i].arrival;
+    }
+    process[i].ct=current+process[i].burst;
+    process[i].tat=process[i].ct-process[i].arrival;
+    process[i].wt=process[i].tat-process[i].burst;
+    current=process[i].ct;
+     i++;
+     int j=i;
+     if(j+1!=process.size()){//
+        for(j;j<process.size();j++){//int j=0; int thie are errors 
+            if(process[j].arrival>current){
+                break;
+            }
+        }
+        sort(process.begin()+i,process.begin()+j,burtc);
+     }
+
+ }
+  cout<<"\npid\t at \t bt \t ct \t tat \t wt"<<endl;
+    sort(process.begin(),process.end(),ppid);
+
+    for(int i=0;i<process.size();i++){
+        cout<<process[i].pid<<"\t"<<process[i].arrival<<"\t"<<process[i].burst<<"\t"<<process[i].ct<<"\t"<<process[i].tat<<"\t"<<process[i].wt<<endl;
+    }
+   
+  float tata=0,wta=0;
+
+   for(int i=0;i<process.size();i++){
+      tata=tata+process[i].tat;
+      wta=wta+process[i].wt;
+   }
+  cout<<"avg wt=>"<<(wta/process.size())<<endl;
+  cout<<"avg tat=>"<<(tata/process.size())<<endl;
+
+
+}
+
+
+int main(){
+    int n;
+    cout<<"enter process nos"<<endl;
+    cin>>n;
+    vector<process> process(n);
+    cout<<"enter arrival time and burst time"<<endl;
+    for(int i=0;i<n;i++){
+        cout<<"process no"<<i<<" ";
+        process[i].pid=i;
+        cin>>process[i].arrival;
+        cin>>process[i].burst;
+        cout<<endl;
+    }
+    sort(process.begin(),process.end(),arrc);
+   //fcfs(process);
+    sjf(process);
+
+}

@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int fifo(vector<int>& arr,int capacity){
+    unordered_set<int> cap;
+    queue<int> q;
+    int pagefalt=0;
+    for(int i=0;i<arr.size();i++){
+
+        if(cap.size()<capacity){
+          if(cap.find(arr[i])==cap.end()){
+                  pagefalt++;
+                   q.push(arr[i]);
+                 cap.insert(arr[i]);
+          }
+        }
+        else{
+             if(cap.find(arr[i])==cap.end()){
+                    pagefalt++;
+                 int val=q.front();
+                 q.pop();
+                cap.erase(val);
+                cap.insert(arr[i]);
+                q.push(arr[i]);
+             }
+        }
+        
+        
+    }
+     return pagefalt;
+}
+
+int main(){
+     int capacity;
+    cout<<"enter frame size "<<endl;
+    cin>>capacity;
+    cout<<"enter string size"<<endl;
+    int n;
+    cin>>n;
+     vector<int> arr(n);
+
+     for(int i=0;i<arr.size();i++){
+        cin>>arr[i];
+     }
+    
+   
+    int pagefault=fifo(arr,capacity);
+    cout<<pagefault<<endl;
+}
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    cout<<"Enter the frame size"<<endl;
+    int frame;
+    cin>>frame;
+    cout<<"enter string size"<<endl;
+    int n;
+    cin>>n;
+      vector<int> arr(n);
+     for(int i=0;i<n;i++){
+        cin>>arr[i];
+     }
+    int pagefault=0;
+    deque<int> dq(frame);
+    deque<int>:: iterator it;
+    dq.clear();
+    for(int i=0;i<arr.size();i++){
+        it=find(dq.begin(),dq.end(),arr[i]);
+        if(!(it!=dq.end())){
+              pagefault++;
+              if(dq.size()==frame){
+                dq.erase(dq.begin());
+                dq.push_back(arr[i]);
+              }
+              else{
+               dq.push_back(arr[i]);
+              }
+        }
+        else{
+            dq.erase(it);
+            dq.push_back(arr[i]);
+        }
+    }
+    cout<<pagefault;
+}

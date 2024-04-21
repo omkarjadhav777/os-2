@@ -1,0 +1,134 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void fcfs(vector<int>& arr,int head){
+    int seektime=0;
+    int currenttrack,distance;
+
+    for(int i=0;i<arr.size();i++){
+        currenttrack=arr[i];
+        distance=abs(head-currenttrack);
+        seektime=seektime+distance;
+        head=currenttrack;
+    }
+    cout<<"seek time is"<<seektime<<endl;
+    cout<<"sequence is "<<endl;
+
+    for(int i=0;i<arr.size();i++){
+        cout<<arr[i]<<" ";
+    }
+
+
+}
+
+
+int main(){
+    cout<<"enter head count "<<endl;
+    int head;
+    cin>>head;
+    int n;
+    cout<<"enter request no."<<endl;
+    cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<arr.size();i++){
+        cin>>arr[i];
+    }
+    fcfs(arr,head);
+}
+
+
+
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+void sscan(vector<int>& arr,int head,string direction){
+    int seektime=0;
+    int distance,currenttrack;
+    vector<int> sequence;
+    vector<int> left,right;
+
+    if(direction=="left"){
+        left.push_back(0);
+    }
+    if(direction=="right"){
+        right.push_back(199);
+    }
+
+    for(int i=0;i<arr.size();i++){
+        if(arr[i]<head){
+            left.push_back(arr[i]);
+        }
+        if(arr[i]>head){
+            right.push_back(arr[i]);
+        }
+    }
+    std::sort(left.begin(),left.end());
+    std::sort(right.begin(),right.end());
+
+
+    int run=2;
+
+     while(run--){
+             if(direction=="left"){
+                for(int i=left.size()-1;i>=0;i--){
+                    currenttrack=left[i];
+                    sequence.push_back(left[i]);
+                    distance=abs(head-currenttrack);
+                    seektime=seektime+distance;
+                    head=currenttrack;
+                }
+                direction="right";
+             }
+             else if(direction=="right"){
+                for(int i=0;i<right.size();i++){
+                    currenttrack=right[i];
+                    sequence.push_back(right[i]);
+                    distance=abs(head-currenttrack);
+                    seektime=seektime+distance;
+                    head=currenttrack;
+                }
+                direction="left";
+             }
+    }
+
+    cout<<"seektime is"<<seektime<<endl;
+    cout<<"sequence is "<<endl;
+    for(int i=0;i<sequence.size();i++){
+        cout<<sequence[i]<<" ";
+    }
+  
+}
+
+
+int main(){
+    int head;
+    cout<<"enter head "<<endl;
+    cin>>head;
+
+    cout<<"enter string direaction"<<endl;
+    string direction;
+    cin>>direction;
+    cout<<"enter req sequence lenghth"<<endl;
+    int n;
+    cin>>n;
+      vector<int> arr(n);
+    cout<<"enter req sequence"<<endl;
+    for(int i=0;i<arr.size();i++){
+        cin>>arr[i];
+    }
+    sscan(arr,head,direction);
+}
+
+// Total number of seek operations = 337
+// Seek Sequence is
+// 60
+// 79
+// 92
+// 114
+// 176
+// 199
+// 41
+// 34
+//11

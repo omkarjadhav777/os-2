@@ -1,0 +1,114 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void firstfit(vector<int>& process,vector<int>& blocksize){
+    vector<int> allocation(process.size(),-1);
+
+    for(int i=0;i<process.size();i++){
+        for(int j=0;j<blocksize.size();j++){
+            if(blocksize[j]>=process[i]){
+                allocation[i]=j;
+                blocksize[j]=blocksize[j]-process[i];
+                break;
+            }
+        }
+    }
+    cout<<"\n process no \t process size \t allocation";
+    for(int i=0;i<process.size();i++){
+        cout<<"\n"<<i+1<<"\t\t\t"<<process[i]<<"\t\t";
+        if(allocation[i]!=-1){
+            cout<<allocation[i]+1;
+        }
+        else{
+            cout<<"empty";
+        }
+        
+        }
+    
+}
+
+int main(){
+    cout<<"enter process size of array"<<endl;
+    int ps;
+    cin>>ps;
+    vector<int> process(ps);
+    cout<<"enter process sizes"<<endl;
+      for(int i=0;i<process.size();i++){
+        cin>>process[i];
+      }
+    cout<<"enter block size of array"<<endl;
+    int bs;
+    cin>>bs;
+   vector<int> blocksize(bs);
+   cout<<"enter block sizes"<<endl;
+   for(int i=0;i<blocksize.size();i++){
+        cin>>blocksize[i];
+   }
+   
+    firstfit(process,blocksize);
+}
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void worstfit(vector<int>& process,vector<int>& blocksize){
+    vector<int> allocation(process.size(),-1);
+    int worstindex=-1;
+    for(int i=0;i<process.size();i++){
+        worstindex=-1;
+        for(int j=0;j<blocksize.size();j++){
+            if(blocksize[j]>=process[i]){
+                if(worstindex==-1){
+                    worstindex=j;
+                }
+                
+               else if(blocksize[worstindex]<blocksize[j]){
+                        worstindex=j;
+                    }
+                }
+            }
+            if(worstindex!=-1){
+               blocksize[worstindex]-=process[i];
+               allocation[i]=worstindex;
+            }
+        }
+    
+
+    cout<<"\n process no \t process size \t alocation";
+
+    for(int i=0;i<process.size();i++){
+        cout<<"\n"<<i+1<<"\t\t"<<process[i]<<"\t\t";
+        if(allocation[i]!=-1){
+            cout<<allocation[i]+1;
+        }
+        else{
+            cout<<"empty";
+        }
+    }
+}
+
+
+
+int main()
+{
+    cout<<"enter process size"<<endl;
+    int ps;
+    cin>>ps;
+    cout<<"enter process"<<endl;
+     vector<int> process(ps);
+    for(int i=0;i<process.size();i++){
+        cin>>process[i];
+    }
+    cout<<"enter blocksize"<<endl;
+    int bs;
+    cin>>bs;
+    cout<<"enter blocksizes one by one"<<endl;
+    vector<int> blocksize(bs);
+    for(int i=0;i<blocksize.size();i++){
+        cin>>blocksize[i];
+    }
+
+    worstfit(process,blocksize);
+}

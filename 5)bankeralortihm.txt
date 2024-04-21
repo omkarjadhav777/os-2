@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n;
+    cout<<"enter process no"<<endl;
+    cin>>n;
+    int m;
+    cout<<"enter resouse no"<<endl;
+    cin>>m;
+
+    vector<vector<int>> allocated(n,vector<int>(m));
+    cout<<"enter allocation"<<endl;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>allocated[i][j];
+        }
+        cout<<endl;
+    }
+     
+    vector<vector<int>> maxavailable(n,vector<int>(m));
+    cout<<"enter max availble"<<endl;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>maxavailable[i][j];
+        }
+        cout<<endl;
+    }
+
+     vector<int> avl(m);
+    cout<<"enter avilable resourse"<<endl;
+     for(int i=0;i<m;i++){
+            cin>>avl[i];
+        }
+  
+  vector<vector<int>> need(n,vector<int>(m));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            need[i][j]=maxavailable[i][j]-allocated[i][j];
+        }
+    }
+    vector<int> f(n,0);int ans[n];int index=0;
+    int flag;
+    for(int k=0;k<n;k++){
+        for(int i=0;i<n;i++){
+           flag=0;
+           if(f[i]==0){
+               for(int j=0;j<m;j++){
+                  if(need[i][j]>avl[j]){
+                      flag=1;
+                      break;
+                  }
+                   }
+                   if(flag==0){
+                    f[i]=1;
+                    ans[index++]=i;
+                    for(int s=0;s<m;s++){
+                        avl[s]+=allocated[i][s];
+                    }
+                   }
+           }
+            
+        }
+    }
+    int flagg=0;
+    for(int i=0;i<n;i++){
+        if(f[i]==0){
+            cout<<"sequec not found"<<endl;
+            flagg=1;
+            break;
+        }
+    }
+    if(flagg==0){
+    for(int i=0;i<n;i++){
+        cout<<ans[i]<<" ";
+    }
+    }
+    
+}
